@@ -9,13 +9,12 @@ const api = require("./app/api");
 
 const app = express();
 
-app.use(express.static(__dirname + "/app/assets")); // serve static .js files for client to download
-
 app.use(helmet());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.static(__dirname + "/app/public/")); // serve static files for client to download
 app.set("view engine", "ejs");
 app.set("views", "./app/views/pages"); // Specified path as 'veiws' folder is not on root _dir
 
