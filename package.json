@@ -1,6 +1,6 @@
 {
   "name": "jank-chat",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Simple chat app using NodeJS & Socket.io",
   "main": "start.js",
   "scripts": {
