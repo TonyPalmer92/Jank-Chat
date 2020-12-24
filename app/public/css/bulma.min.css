@@ -1,9 +1,8 @@
 /*! bulma.io v0.9.1 | MIT License | github.com/jgthms/bulma */
 img {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
 }
-
 
 @-webkit-keyframes spinAround {
   from {
@@ -10561,11 +10560,11 @@ a.has-text-danger-dark:hover {
 }
 
 #chat-messages {
-  height: 75vh;
+  height: 80vh;
   overflow-y: scroll;
 }
 
 #user-list {
-  height: 70vh;
+  height: 85vh;
   overflow-y: scroll;
 }

@@ -1,5 +1,4 @@
 const socketio = require("socket.io");
-const fs = require("fs");
 
 const { formatMessage } = require("./lib/utils/message.js");
 const {
@@ -43,9 +42,13 @@ module.exports = (server) => {
     socket.on("img-upload", (image) => {
       const user = getCurrentUser(socket.id);
 
-      const base64str = image;
+      const base64str = image; // base64 string sent from client
 
-      io.to(user.room).emit("img-upload", base64str);
+      io.to(user.room).emit(
+        "img-upload",
+        formatMessage(user.username),
+        base64str // send base64 string back to clients room to use in img src
+      );
     });
 
     // Runs when client disconnects
