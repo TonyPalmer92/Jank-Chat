@@ -1,4 +1,5 @@
 const socketio = require("socket.io");
+const dayjs = require("dayjs")();
 
 const { formatMessage } = require("./lib/utils/message.js");
 const {
@@ -13,7 +14,7 @@ module.exports = (server) => {
 
   // listens for new connections to the chat.ejs page
   io.on("connection", (socket) => {
-    console.log(`User: ${socket.id} has CONNECTED`);
+    console.log(`User: ${socket.id} has CONNECTED - ${dayjs.format("h:mma")}`);
 
     // User joins a room by default
     socket.on("joinRoom", ({ username, room }) => {
@@ -53,7 +54,7 @@ module.exports = (server) => {
 
     // Runs when client disconnects
     socket.on("disconnect", () => {
-      console.log(`User: ${socket.id} DISCONNECTED`);
+      console.log(`User: ${socket.id} DISCONNECTED - ${dayjs.format("h:mma")}`);
       const user = userLeave(socket.id);
 
       if (user) {

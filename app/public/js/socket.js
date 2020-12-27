@@ -21,8 +21,8 @@ socket.on("roomUsers", ({ room, users }) => {
   outputUsers(users);
 });
 
-socket.on("img-upload", (baseString) => {
-  outputImage(baseString);
+socket.on("img-upload", (dataObj, baseString) => {
+  outputMessage(dataObj, baseString);
   // Scroll down
   DOM.chatMessages.scrollTop = DOM.chatMessages.scrollHeight;
 });
@@ -64,47 +64,42 @@ DOM.chatForm.addEventListener("submit", (e) => {
 });
 
 // Message from server
-socket.on("message", (message) => {
-  outputMessage(message);
+socket.on("message", (dataObj) => {
+  outputMessage(dataObj);
   // Scroll down
   DOM.chatMessages.scrollTop = DOM.chatMessages.scrollHeight;
 });
 
 // Output message to DOM
-function outputMessage(data) {
+function outputMessage(dataObj, baseString) {
   const outDiv = document.createElement("div");
   const div = document.createElement("div");
   const span = document.createElement("span");
   const p = document.createElement("p");
 
-  outDiv.classList.add("message", data.msg_theme);
+  outDiv.classList.add("message", dataObj.msg_theme);
   div.classList.add("message-body", "px-1", "mb-2");
   span.classList.add("has-text-grey");
 
-  span.innerHTML = `<em><small>${data.username} - ${data.time}</small></em>`;
-  p.innerText = `${data.msg}`;
+  span.innerHTML = `<em><small>${dataObj.username} - ${dataObj.time}</small></em>`;
 
   div.appendChild(span);
-  div.appendChild(p);
+
+  // if a base64 string was sent from server, create img element
+  // else output the message
+  if (baseString) {
+    const imgdiv = document.createElement("div");
+    const img = document.createElement("img");
+
+    img.src = baseString;
+    imgdiv.appendChild(img);
+    div.appendChild(imgdiv);
+  } else {
+    p.innerText = `${dataObj.msg}`;
+    div.appendChild(p);
+  }
 
   outDiv.appendChild(div);
-
-  DOM.chatMessages.appendChild(outDiv);
-}
-
-function outputImage(data) {
-  const outDiv = document.createElement("div");
-  const div = document.createElement("div");
-  const img = document.createElement("img");
-
-  outDiv.classList.add("message");
-  div.classList.add("message-body", "px-1", "mb-2");
-
-  img.src = data;
-
-  div.appendChild(img);
-  outDiv.appendChild(div);
-
   DOM.chatMessages.appendChild(outDiv);
 }
 
